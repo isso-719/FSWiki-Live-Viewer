@@ -437,7 +437,7 @@
                 // なお、! を除いた行頭のスペースは削除する
                 if (line.match(/^!!!/)) {
                     line = line.replace(/^!!!/, "");
-                    line = `<h4>` + line + `</h4>`;
+                    line = `<h2>` + line + `</h2>`;
                     line_type = "h2";
                     outline.push((line, 1));
                 } else if (line.match(/^!!/)) {
@@ -447,7 +447,7 @@
                     outline.push((line, 1));
                 } else if (line.match(/^!/)) {
                     line = line.replace(/^!/, "");
-                    line = `<h2>` + line + `</h2>`;
+                    line = `<h4>` + line + `</h4>`;
                     line_type = "h4";
                     outline.push((line, 1));
                 } else {
