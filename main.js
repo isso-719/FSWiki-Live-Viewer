@@ -509,12 +509,18 @@ require(["vs/editor/editor.main"], function () {
 
     // .downloader をクリックしたとき
     $(".downloader").click(function () {
-        // ファイル名を取得
-        let file_name = "download.fswiki";
+        // #filename からファイル名を取得
+        let file_name = $("#filename").val();
         // ファイルの中身を取得
         let data = editor.getValue();
         // ファイルの中身をテキストとして保存
         downloadAsTextFile(file_name, data);
+    });
+
+    // .rename をクリックしたとき
+    $(".rename").click(function () {
+        // #filename にフォーカスし、選択状態にする
+        $("#filename").focus().select();
     });
 
     // mac では command + s を押したら、.downloader をクリック
