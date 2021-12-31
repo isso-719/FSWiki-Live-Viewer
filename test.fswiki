@@ -29,8 +29,6 @@
 ++番号付き項目1-2
 +番号付き項目3
 
-
-// issue
 *http://www.yahoo.co.jp/
 *[Google|http://www.google.co.jp/]
 *[[FrontPage]]
@@ -69,9 +67,21 @@
 [[YukiWiki:Perl]]
 [[Google:Perl]]
 
-// issue
 [[Googleで検索|Google:Perl]]
 
-// issue
 *[Google|http://www.google.co.jp]
 *[[Wiki|Wikiクローン]]
+
+{{pre
+// mac では command + s を押したら、.downloader をクリック
+// windows では control + s を押したら、.downloader をクリック
+$(document).keydown(function (e) {
+    // ブラウザの機能を無効化
+    if (e.ctrlKey || e.metaKey) {
+        if (e.keyCode == 83) {
+            e.preventDefault();
+            $(".downloader").click();
+        }
+    }
+});
+}}

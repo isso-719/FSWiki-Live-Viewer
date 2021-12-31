@@ -458,19 +458,19 @@
                     continue;
                 }
 
-                // スペースもしくはタブのみから始まればpre
-                if (line.match(/^\s/) || line.match(/^\t/)) {
+                // スペースのみから始まればpre
+                if (line.match(/^\s/)) {
                     // 行頭にあるスペースかタブを削除する
-                    line = line.replace(/^[\s\t]/, "");
+                    line = line.replace(/^[\s]/, "");
                     line = `<pre>${line.replace()}`;
                     result += line;
                     // i を1つ進める
                     // その行を見て、行頭がスペースもしくはタブで終わらなくなるまで繰り返す
                     for (var j = i + 1; j < lines.length; j++) {
                         // 行頭がスペースもしくはタブで終わらなくなるまで繰り返す
-                        if (lines[j].match(/^\s/) || lines[j].match(/^\t/)) {
+                        if (lines[j].match(/^\s/)) {
                             // スペースもしくはタブを取り除いた行をresultに追加
-                            result += "\n" + lines[j].replace(/^[\s\t]/, '');
+                            result += "\n" + lines[j].replace(/^[\s]/, '');
                             // iを1つ進める
                             i = j;
                         } else {
@@ -505,6 +505,24 @@
 
                 // line 内で __ で囲まれた部分に下線を付ける
                 line = line.replace(/__(.*?)__/g, `<u>$1</u>`);
+
+                // line 内で [[ で囲まれた部分を.dammyLinkにする
+                // もし中にある | で区切られているのであれば、区切られた部分最初の部分を.dammyLinkの見出しにする
+                line = line.replace(/\[\[(.*?)\|(.*?)\]\]/g, `<span class="dammyLink">$1</span>`);
+
+                // line 内で [[ で囲まれた部分を.dammyLinkにする
+                line = line.replace(/\[\[(.*?)\]\]/g, `<span class="dammyLink">$1</span>`);
+
+                // line 内で [ で囲まれた部分を.dammyLinkにする
+                // 中にある | で区切られた部分最初の部分を.dammyLinkの見出しにする
+                line = line.replace(/\[(.*?)\|(.*?)\]/g, `<span class="dammyLink">$1</span>`);
+
+                // line 内に URL があれば.dammyLinkにする
+                line = line.replace(/https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/g, `<span class="dammyLink">$&</span>`);
+
+                // line 内に mailto: があれば.dammyLinkにする
+                line = line.replace(/mailto:[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/g, `<span class="dammyLink">$&</span>`);
+
 
                 // :::説明文 dd
                 if (line.match(/^:::/)) {
@@ -742,6 +760,7 @@
                     // カンマでsplitした要素を、<tr>で囲む
                     line = `<tr>` + cols.join("") + `</tr>`;
 
+
                     // table タグを開始する
                     if (!is_table) {
                         line = `<table>` + line;
@@ -757,7 +776,6 @@
                     result += line;
                     continue;
                 }
-
 
                 // lineに何もない場合は、空行を追加する
                 if (!line) {
