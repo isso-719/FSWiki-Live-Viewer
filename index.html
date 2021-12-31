@@ -393,6 +393,7 @@
         function convert(target) {
 
             var is_pre = false;
+            var is_space_pre = false;
             var is_outline = false;
             var is_list1 = false;
             var is_list2 = false;
@@ -694,6 +695,20 @@
                     line_type = "comment";
                 }
 
+                // 行の開始が スペース か Tab ならば pre
+                if (line.match(/^\s/) || line.match(/^\t/)) {
+                    line = line.replace(/^\s/, "");
+                    // 1つ前の行が line.match(/^\s/) || line.match(/^\t/) ならば
+                    if (lines[i - 1].match(/^\s/) || lines[i - 1].match(/^\t/)) {
+                        // result から最後の <pre> を取り出して、その中身を追加する
+                        result = result.replace(/<\/pre>$/, "");
+                        line = "\n" + line + `</pre>`
+                    } else {
+                        line = `<pre>` + line + `</pre>`;
+                    }
+                    line_type = "pre";
+                }
+
 
                 // line_type が h2, h3, h4 でない時
                 // ''' '''で囲まれたところがあれば、strong で囲む
@@ -750,6 +765,8 @@
                 // result に追加
                 result += line;
 
+                console.log(result);
+
                 // line_type を初期化
                 line_type = "";
 
@@ -786,7 +803,7 @@
                 theme: 'vs-dark'
             });
 
-            console.log(editor.getValue());
+            // console.log(editor.getValue());
             convert(editor.getValue());
             $("#container").html(result);
 
