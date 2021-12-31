@@ -1,3 +1,4 @@
+// monaco editor
 var editor;
 // 変換後の文字列
 var result = ``;
