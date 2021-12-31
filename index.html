@@ -408,7 +408,7 @@
                 // }
 
                 // 行の開始が }} であれば、pre を終了する
-                if (line.match(/^\s*}}/)) {
+                if (line == "}}") {
                     result += `</pre>`;
                     is_pre = false;
                     continue;
@@ -666,7 +666,7 @@
                 }
 
                 // 行の開始が {{pre 開始の時
-                if (line.match("{{pre")) {
+                if (line == "{{pre") {
                     result += `<pre>`;
                     is_pre = true;
                     continue;
@@ -778,6 +778,13 @@
                 if (line_type != "h2" && line_type != "h3" && line_type != "h4" && line.match(/^\[\[.*?\]\]/)) {
                     line = line.replace(/\[\[(.*?)\]\]/g, `<span class="dammyLink">$1</span>`);
                 }
+
+                // line_type がなく、行頭が [ ならば、class dammyLink をつけ、1つ目の要素が名前, 2つ目の要素がURL
+                // [Google|http://www.google.co.jp/]
+                if (line_type != "h2" && line_type != "h3" && line_type != "h4" && line.match(/^\[(.*?)\|(.*?)\]/)) {
+                    line = line.replace(/\[(.*?)\|(.*?)\]/g, `<span class="dammyLink">$1</span>`);
+                }
+
 
 
                 // もし line_type が定義済みでない時
