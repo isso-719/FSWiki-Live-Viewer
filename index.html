@@ -448,18 +448,18 @@
                 // 行の開始が !! ならば h3 タグで囲む
                 // 行の開始が !!! ならば h2 タグで囲む
                 // なお、! を除いた行頭のスペースは削除する
-                if (line.match(/^! /)) {
-                    line = line.replace(/^! /, "");
+                if (line.match(/^!/)) {
+                    line = line.replace(/^!/, "");
                     line = `<h4>` + line + `</h4>`;
                     line_type = "h4";
                     outline.push((line, 3));
-                } else if (line.match(/^!! /)) {
-                    line = line.replace(/^!! /, "");
+                } else if (line.match(/^!!/)) {
+                    line = line.replace(/^!!/, "");
                     line = `<h3>` + line + `</h3>`;
                     line_type = "h3";
                     outline.push((line, 2));
-                } else if (line.match(/^!!! /)) {
-                    line = line.replace(/^!!! /, "");
+                } else if (line.match(/^!!!/)) {
+                    line = line.replace(/^!!!/, "");
                     line = `<h2>` + line + `</h2>`;
                     line_type = "h2";
                     outline.push((line, 1));
@@ -670,7 +670,7 @@
 
                 // 行の開始が "" ならば <blockquote>
                 // なお、"" を除いた行頭のスペースは削除する
-                if (line.match(/^"" /)) {
+                if (line.match(/^""/)) {
                     line = line.replace(/^"" /, "");
                     line = `<blockquote>` + line + `</blockquote>`;
                     line_type = "blockquote";
@@ -707,6 +707,43 @@
                         line = `<pre>` + line + `</pre>`;
                     }
                     line_type = "pre";
+                }
+
+
+                // 行の開始が ::: ならば <dd>
+                if (line.match(/^:::/)) {
+                    line = line.replace(/^:::/, "");
+                    // result の最後が </dd> ならば削除
+                    if (result.match(/<\/dd>$/)) {
+                        result = result.replace(/<\/dd>$/, "");
+                        line =  line + `</dd>`;
+                    } else {
+                        line = `<dd>` + line + `</dd>`;
+                    }
+                    line_type = "dd";
+                }
+
+
+                // 行の開始が :: ならば <dt>
+                if (line.match(/^::/) && line_type == "") {
+                    line = line.replace(/^::/, "");
+                    line = `<dt>` + line + `</dt>`;
+                    line_type = "dt";
+                }
+
+
+                // 行の開始が : ならば <dt>, <dd>
+                // :項目:説明文
+                if (line.match(/^:/) && line_type == "") {
+                    line = line.replace(/^:/, "");
+                    line = line.replace(/^\s+/, "");
+                    line = line.replace(/\s+$/, "");
+                    line = line.split(":");
+                    if (line[1] == undefined) {
+                        line[1] = "";
+                    }
+                    line = `<dt>` + line[0] + `</dt><dd>` + line[1] + `</dd>`;
+                    line_type = "dtdd";
                 }
 
 
