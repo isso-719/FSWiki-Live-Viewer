@@ -698,8 +698,8 @@
                 // 行の開始が スペース か Tab ならば pre
                 if (line.match(/^\s/) || line.match(/^\t/)) {
                     line = line.replace(/^\s/, "");
-                    // 1つ前の行が line.match(/^\s/) || line.match(/^\t/) ならば
-                    if (lines[i - 1].match(/^\s/) || lines[i - 1].match(/^\t/)) {
+                    // 前の行の開始が スペースか Tab ならば
+                    if (i != 0 && (lines[i - 1].match(/^\s/) || lines[i - 1].match(/^\t/))) {
                         // result から最後の <pre> を取り出して、その中身を追加する
                         result = result.replace(/<\/pre>$/, "");
                         line = "\n" + line + `</pre>`
