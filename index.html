@@ -434,21 +434,23 @@
                 // 行の開始が !! ならば h3 タグで囲む
                 // 行の開始が !!! ならば h2 タグで囲む
                 // なお、! を除いた行頭のスペースは削除する
-                if (line.match(/^!/)) {
-                    line = line.replace(/^!/, "");
-                    line = `<h4>` + line + `</h4>`;
-                    line_type = "h4";
-                    outline.push((line, 3));
-                } else if (line.match(/^!!/)) {
-                    line = line.replace(/^!!/, "");
-                    line = `<h3>` + line + `</h3>`;
-                    line_type = "h3";
-                    outline.push((line, 2));
-                } else if (line.match(/^!!!/)) {
+                if (line.match(/^!!!/)) {
                     line = line.replace(/^!!!/, "");
                     line = `<h2>` + line + `</h2>`;
                     line_type = "h2";
                     outline.push((line, 1));
+                } else if (line.match(/^!!/)) {
+                    line = line.replace(/^!!/, "");
+                    line = `<h3>` + line + `</h3>`;
+                    line_type = "h3";
+                    outline.push((line, 1));
+                } else if (line.match(/^!/)) {
+                    line = line.replace(/^!/, "");
+                    line = `<h4>` + line + `</h4>`;
+                    line_type = "h4";
+                    outline.push((line, 1));
+                } else {
+                    line = line.replace(/^\s+/, "");
                 }
 
                 // 行の開始が +++ ならばレベル 3 の数字リスト
