@@ -480,6 +480,10 @@ require(["vs/editor/editor.main"], function () {
         let reader = new FileReader();
         // ファイルの読み込みが完了した時
         reader.onload = function () {
+            // ファイル名を取得
+            let name = file.name;
+            // #filename にファイル名を表示
+            $("#filename").val(name);
             // ファイルの中身を取得
             let data = reader.result;
             // editor に中身をセット
