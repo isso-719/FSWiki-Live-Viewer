@@ -494,11 +494,11 @@
                     continue;
                 }
 
-                // line 内で '' で囲まれた部分をイタリックにする
-                line = line.replace(/''(.*?)''/g, `<i>$1</i>`);
-
                 // line 内で ''' で囲まれた部分を強調する
                 line = line.replace(/'''(.*?)'''/g, `<strong>$1</strong>`);
+
+                // line 内で '' で囲まれた部分をイタリックにする
+                line = line.replace(/''(.*?)''/g, `<i>$1</i>`);
 
                 // line 内で == で囲まれた部分に打ち消し線を付ける
                 line = line.replace(/==(.*?)==/g, `<del>$1</del>`);
