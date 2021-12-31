@@ -398,7 +398,6 @@
 
                 // 行の開始が {{pre ならばpre
                 if (line == "{{pre") {
-                    line = line.replace(/^{{pre/, "");
                     line = `<pre>`;
                     result += line;
                     is_pre = true;
@@ -408,6 +407,7 @@
                 // 行の開始が }} ならば/pre
                 if (line == "}}") {
                     line = `</pre>`;
+                    result += line;
                     is_pre = false;
                     continue;
                 }
