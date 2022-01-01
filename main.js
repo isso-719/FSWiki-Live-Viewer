@@ -499,6 +499,7 @@ require(["vs/editor/editor.main"], function () {
         reader.readAsText(file);
     });
 
+    // download スクリプト
     function downloadAsTextFile(fileName, content) {
         const BLOB = new Blob([content], {
             type: "text/plain",
