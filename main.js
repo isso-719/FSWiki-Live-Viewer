@@ -22,6 +22,9 @@ function convert(target) {
         // 変換後の文字列を格納する変数
         var line = lines[i];
 
+        // line をエスケープ
+        line = line.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
         // 行の開始が {{pre ならばpre
         if (line == "{{pre") {
             line = `<pre>`;
@@ -468,8 +471,10 @@ require(["vs/editor/editor.main"], function () {
     editor.getModel().onDidChangeContent((event) => {
         result = "";
         convert(editor.getValue());
+        // console.log(result);
         // 中身を削除
         $("#container").html("");
+        // 新しい中身を追加
         $("#container").html(result);
     });
 
