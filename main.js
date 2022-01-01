@@ -472,6 +472,8 @@ require(["vs/editor/editor.main"], function () {
         result = "";
         convert(editor.getValue());
         // console.log(result);
+        // ブラウザの幅分下を増やす
+        result += `<span style="height: 90% !important; display: block;"></span>`;
         // 中身を削除
         $("#container").html("");
         // 新しい中身を追加
